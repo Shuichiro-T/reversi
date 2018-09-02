@@ -59,7 +59,7 @@ class Reversi():
             n = 0
             
             # 影響範囲を取得
-            li = self.enable_actions[action + i::i][:self.Board_Size]
+            li = self.enable_actions[action + i::i]
             
             # 影響範囲の値を取得
             for j in li:
