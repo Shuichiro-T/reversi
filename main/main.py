@@ -57,17 +57,26 @@ class Reversi():
             m = []
             k = 0
             n = 0
+            
+            # 影響範囲を取得
             li = self.enable_actions[action + i::i][:self.Board_Size]
+            
+            # 影響範囲の値を取得
             for j in li:
                 b.append(self.get_cell(j))
+            
+            # 置いた際の動きについて記憶
             for j in b:
                 if int(j) == self.Blank:
+                    # 空欄があればBreakする
                     break
                 elif int(j) == color:
+                    # 自分の色の石があれば集計終了
                     l += m
                     n = k
                     break
                 else:
+                    # 対戦相手の色があればひっくり返す石リストに追加
                     j += 1
                     m.insert(0,li[k])
                 k += 1
@@ -76,12 +85,14 @@ class Reversi():
         # 石がなければパス
         if t == 0:
             return 0
+        
         # もし引っ繰り返す処理が必要ならば実行
         if put:
             for i in l:
                 print(i)
                 self.set_cell(i, color)
             self.set_cell(action,color)
+
         # 個数を返す
         return t
 
@@ -112,12 +123,14 @@ class Reversi():
                     result.insert(0, action)
         return result
 
+    # アップデート
     def update(self,action,color):
         n = self.put(action,color,False)
         if n > 0:
             self.put(action,color,True)
         return n
 
+    # 終了判定
     def End_Check(self):
         b = self.enable(self.Black)
         w = self.enable(self.White)
@@ -125,6 +138,7 @@ class Reversi():
             return True
         return False
 
+    # 描画
     def print_screen(self):
         for i in range(0,self.Board_Size):
             s1 = ""
@@ -139,6 +153,7 @@ class Reversi():
                 s1 = s1 + " " + s2
             print(s1)
 
+# 直接起動された際に実行（テスト用）
 if __name__ == "__main__":
     env = Reversi()
     print("GAME START")
@@ -164,7 +179,7 @@ if __name__ == "__main__":
                             print(j)
                             flg = True
                             break
-                n = env.put(action, i)
+                n = env.update(action, i)
                 
             else:
                 print("パス")
