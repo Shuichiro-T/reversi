@@ -42,8 +42,8 @@ class Reversi():
         l = []
         x = int(action/self.Board_Size)
         y = int(action%self.Board_Size)
-        xi = int(self.Board_Size - x - 1)
-        yi = int(self.Board_Size - y - 1)
+        xd = self.Board_Size - x - 1
+        yd = self.Board_Size - y - 1
         t = 0
         
         # 置かれた場所の周囲の石を確認していく
@@ -51,7 +51,7 @@ class Reversi():
         # -1  0 +1
         # +7 +8 +9
         # 一次元配列にした際には上のような位置関係になる
-        for i in [-9,-8,-7,-1,1,7,8,9]:
+        for i,deep in zip([-9,-8,-7,-1,1,7,8,9],[min(x,y),x,min(x,yd),y,yd,min(xd,y),xd,min(xd,yd)]):
             li = []
             b = []
             m = []
@@ -59,8 +59,8 @@ class Reversi():
             n = 0
             
             # 影響範囲を取得
-            li = self.enable_actions[action + i::i]
-            
+            li = self.enable_actions[action + i::i][:deep]
+
             # 影響範囲の値を取得
             for j in li:
                 b.append(self.get_cell(j))
@@ -145,7 +145,7 @@ class Reversi():
             for j in range(0,self.Board_Size):
                 s2 = ""
                 if self.cells[i][j] == self.Blank:
-                    s2 = "•"
+                    s2 = " "
                 elif self.cells[i][j] == self.Black:
                     s2 = "○"
                 elif self.cells[i][j] == self.White:
