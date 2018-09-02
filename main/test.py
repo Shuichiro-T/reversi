@@ -3,6 +3,7 @@ from __future__ import division
 import argparse
 import os
 import sys
+import argparse
 
 from main import Reversi
 from dqn_agent import DQNAgent
@@ -10,10 +11,14 @@ from dqn_agent import DQNAgent
 inp = ""
 # 直接起動された際に実行（テスト用）
 if __name__ == "__main__":
-    
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-m", "--model_path")
+    parser.add_argument("-s", "--save", dest="save", action="store_true")
+    parser.set_defaults(save=False)
+    args = parser.parse_args()  
     env = Reversi()
     agent = DQNAgent(env.enable_actions,env.name,env.Board_Size)
-    agent.load_model()
+    agent.load_model(args.model_path)
     print("---GAME START---")
     env.print_screen()
     while not env.End_Check():
