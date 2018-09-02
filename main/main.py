@@ -1,9 +1,11 @@
 import numpy as np
 import os
+import sys
 
 class Reversi():
     # 基本値の設定
     def __init__(self):
+        self.name = os.path.splitext(os.path.basename(__file__))[0]
         self.Blank = 0
         self.White = 1
         self.Black = 2
@@ -89,7 +91,6 @@ class Reversi():
         # もし引っ繰り返す処理が必要ならば実行
         if put:
             for i in l:
-                print(i)
                 self.set_cell(i, color)
             self.set_cell(action,color)
 
@@ -145,34 +146,45 @@ class Reversi():
             for j in range(0,self.Board_Size):
                 s2 = ""
                 if self.cells[i][j] == self.Blank:
-                    s2 = " "
+                    s2 = str(i * 8 + j)
+                    if len(s2) == 1:
+                        s2 = " " + s2
                 elif self.cells[i][j] == self.Black:
-                    s2 = "○"
+                    s2 = " ○"
                 elif self.cells[i][j] == self.White:
-                    s2 = "●"
+                    s2 = " ●"
                 s1 = s1 + " " + s2
             print(s1)
 
+
+inp = ""
 # 直接起動された際に実行（テスト用）
 if __name__ == "__main__":
+    
     env = Reversi()
-    print("GAME START")
+    print("---GAME START---")
     env.print_screen()
     while not env.End_Check():
         for i in range(1,3):
-            if i == env.White:
-                print("先行のターンです●")
-            else:
-                print("後攻のターンです○")
             enables = env.enable(i)
-            env.print_screen()
             if len(enables) > 0:
                 flg = False
                 while not flg:
-                    print("番号を入力して下さい")
+                    if i == env.White:
+                        print("●のターン")
+                    else:
+                        print("○のターン")
+                    env.print_screen()
+                    print("番号を入力して下さい(exitでゲーム終了)")
                     print(enables)
                     inp = input(">>>")
-                    action = int(inp)
+                    if inp == "exit":
+                        print("ゲーム終了")
+                        sys.exit()
+                    try:
+                        action = int(inp)
+                    except:
+                        continue
                     for j in enables:
                         if action == j:
                             print(action)
@@ -183,7 +195,8 @@ if __name__ == "__main__":
                 
             else:
                 print("パス")
-    print("ゲーム終了")
+
+    print("---GAME OVER---")
     env.print_screen()
     if env.win_check() == env.White:
         print("白の勝ち")
@@ -191,4 +204,4 @@ if __name__ == "__main__":
         print("黒の勝ち")
     else:
         print("引き分け")
-
+    
