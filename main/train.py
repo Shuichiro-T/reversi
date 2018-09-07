@@ -7,7 +7,7 @@ from dqn_agent import DQNAgent
 
 if __name__ == "__main__":
     # parameters
-    n_epochs = 1000
+    n_epochs = 10000
     env = Reversi()
 
     ID = [env.White,env.Black,env.White]

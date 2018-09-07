@@ -150,9 +150,9 @@ class Reversi():
                     if len(s2) == 1:
                         s2 = " " + s2
                 elif self.cells[i][j] == self.Black:
-                    s2 = " ○"
+                    s2 = "○"
                 elif self.cells[i][j] == self.White:
-                    s2 = " ●"
+                    s2 = "●"
                 s1 = s1 + " " + s2
             print(s1)
 
@@ -187,8 +187,6 @@ if __name__ == "__main__":
                         continue
                     for j in enables:
                         if action == j:
-                            print(action)
-                            print(j)
                             flg = True
                             break
                 n = env.update(action, i)

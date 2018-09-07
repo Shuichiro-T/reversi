@@ -22,7 +22,7 @@ if __name__ == "__main__":
     print("---GAME START---")
     env.print_screen()
     while not env.End_Check():
-        print("USERのターン")
+        print("USERのターン●")
         enables = env.enable(1)
         if len(enables) > 0:
             flg = False
@@ -40,8 +40,6 @@ if __name__ == "__main__":
                     continue
                 for j in enables:
                     if action == j:
-                        print(action)
-                        print(j)
                         flg = True
                         break
             n = env.update(action, 1)
@@ -50,7 +48,7 @@ if __name__ == "__main__":
             print("パス")
         if env.End_Check == True:break
         
-        print("AIのターン")
+        print("AIのターン○")
         env.print_screen()
         enables = env.enable(2)
         if len(enables) > 0:
@@ -63,8 +61,8 @@ if __name__ == "__main__":
     print("---GAME OVER---")
     env.print_screen()
     if env.win_check() == env.White:
-        print("白の勝ち")
+        print("USERの勝ち")
     elif env.win_check() == env.Black:
-        print("黒の勝ち")
+        print("AIの勝ち")
     else:
         print("引き分け")
