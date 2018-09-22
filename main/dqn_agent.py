@@ -23,7 +23,7 @@ class DQNAgent:
         self.replay_memory_size = 1000
         self.learning_rate = 0.001
         self.discount_factor = 0.9
-        self.exploration = 0.1
+        self.exploration = 0.7
         self.model_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "models")
         self.model_name = "{}.ckpt".format(self.environment_name)
 
@@ -89,7 +89,7 @@ class DQNAgent:
             if action in targets:
                 break 
         # max_action Q(state, action)
-        qvalue = Qs[action]       
+        qvalue = Qs[action]
 
         return qvalue, action
 
@@ -137,3 +137,10 @@ class DQNAgent:
 
     def save_model(self):
         self.saver.save(self.sess, os.path.join(self.model_dir, self.model_name))
+
+    def reload(self):
+        checkpoint = tf.train.get_checkpoint_state(self.model_dir)
+        if checkpoint and checkpoint.model_checkpoint_path:
+            self.saver.restore(self.sess, checkpoint.model_checkpoint_path)
+
+

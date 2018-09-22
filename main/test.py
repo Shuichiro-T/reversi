@@ -15,7 +15,7 @@ if __name__ == "__main__":
     parser.add_argument("-m", "--model_path")
     parser.add_argument("-s", "--save", dest="save", action="store_true")
     parser.set_defaults(save=False)
-    args = parser.parse_args()  
+    args = parser.parse_args() 
     env = Reversi()
     agent = DQNAgent(env.enable_actions,env.name,env.Board_Size)
     agent.load_model(args.model_path)
@@ -53,7 +53,7 @@ if __name__ == "__main__":
         enables = env.enable(2)
         if len(enables) > 0:
             qvalue, action_t = agent.select_enable_action(env.cells, enables)
-            print('>>>  {:}'.format(action_t))              
+            print('>>>  {:}'.format(action_t))
             env.update(action_t, 2)
         else:
             print("パス")

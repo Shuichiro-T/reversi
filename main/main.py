@@ -54,11 +54,8 @@ class Reversi():
         # +7 +8 +9
         # 一次元配列にした際には上のような位置関係になる
         for i,deep in zip([-9,-8,-7,-1,1,7,8,9],[min(x,y),x,min(x,yd),y,yd,min(xd,y),xd,min(xd,yd)]):
-            li = []
-            b = []
-            m = []
-            k = 0
-            n = 0
+            li,b,m = [],[],[]
+            k,n = 0,0
             
             # 影響範囲を取得
             li = self.enable_actions[action + i::i][:deep]
@@ -97,24 +94,6 @@ class Reversi():
         # 個数を返す
         return t
 
-    def win_check(self):
-        BScore = self.get_score(self.Black)
-        WScore = self.get_score(self.White)
-
-        if BScore == WScore:
-            return 0
-        elif BScore < WScore:
-            return 1
-        elif BScore > WScore:
-            return 2
-
-    def get_score(self,color):
-        score = 0
-        for i in self.enable_actions:
-            if self.get_cell(i) == color:
-                score += 1
-        return score
-
     # 石を置けるかどうかの判定
     def enable(self, color):
         result = []
@@ -138,6 +117,24 @@ class Reversi():
         if len(b) == 0 and len(w) == 0:
             return True
         return False
+
+    def get_score(self,color):
+        score = 0
+        for i in self.enable_actions:
+            if self.get_cell(i) == color:
+                score += 1
+        return score
+
+    def win_check(self):
+        BScore = self.get_score(self.Black)
+        WScore = self.get_score(self.White)
+
+        if BScore == WScore:
+            return 0
+        elif BScore < WScore:
+            return 1
+        elif BScore > WScore:
+            return 2
 
     # 描画
     def print_screen(self):
