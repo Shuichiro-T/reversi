@@ -75,7 +75,7 @@ class DQNAgent:
     def select_action(self, state, targets, epsilon):
         if np.random.rand() <= epsilon:
             # random
-            return np.random.choice(self.enable_actions)
+            return np.random.choice(targets)
         else:
             # max_action Q(state, action)
             qvalue, action = self.select_enable_action(state, targets)
