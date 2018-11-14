@@ -24,7 +24,7 @@ class DQNAgent:
         self.learning_rate = 0.001
         self.discount_factor = 0.9
         self.exploration = 0.7
-        self.model_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "models")
+        self.model_dir = "./models/"
         self.model_name = "{}.ckpt".format(self.environment_name)
 
         # replay memory
@@ -72,7 +72,7 @@ class DQNAgent:
         # Q(state, action) of all actions
         return self.sess.run(self.y, feed_dict={self.x: [state]})[0]
 
-    def select_action(self, state, targets, epsilon):
+    def select_action(self, state, targets, epsilon=0):
         if np.random.rand() <= epsilon:
             # random
             return np.random.choice(targets)
@@ -137,6 +137,8 @@ class DQNAgent:
 
     def save_model(self):
         self.saver.save(self.sess, os.path.join(self.model_dir, self.model_name))
+        print("Hellow World")
+        print(os.path.join(self.model_dir, self.model_name))
 
     def reload(self):
         checkpoint = tf.train.get_checkpoint_state(self.model_dir)

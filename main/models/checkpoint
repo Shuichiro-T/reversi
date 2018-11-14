@@ -1,2 +1,2 @@
-model_checkpoint_path: "E:\\DeepLearningLearn\\reversi\\main\\models\\main.ckpt"
-all_model_checkpoint_paths: "E:\\DeepLearningLearn\\reversi\\main\\models\\main.ckpt"
+model_checkpoint_path: "main.ckpt"
+all_model_checkpoint_paths: "main.ckpt"
