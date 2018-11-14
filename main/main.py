@@ -17,11 +17,12 @@ class Reversi():
 
     # 初期化
     def reset(self):
-        self.cells = np.zeros((self.Board_Size,self.Board_Size))
-        self.set_cell(27, self.White)
-        self.set_cell(36, self.White)
-        self.set_cell(28, self.Black)
-        self.set_cell(35, self.Black)
+        size = self.Board_Size
+        self.cells = np.zeros((size,size))
+        self.set_cell(size*(size/2-1)+(size/2-1), self.White)
+        self.set_cell(size*(size/2)+(size/2), self.White)
+        self.set_cell(size*(size/2-1)+(size/2), self.Black)
+        self.set_cell(size*(size/2)+(size/2-1), self.Black)
 
     # 指定個所の中身を返す
     def get_cell(self,action):
@@ -38,14 +39,15 @@ class Reversi():
     # 石を置いた際の処理
     # または置ける場所の判定
     def put(self,action,color,put=True):
+        size = self.Board_Size
         # まだ置かれていない場所
         if self.get_cell(action) != self.Blank:
             return -1
         l = []
-        x = int(action/self.Board_Size)
-        y = int(action%self.Board_Size)
-        xd = self.Board_Size - x - 1
-        yd = self.Board_Size - y - 1
+        x = int(action/size)
+        y = int(action%size)
+        xd = size - x - 1
+        yd = size - y - 1
         t = 0
         
         # 置かれた場所の周囲の石を確認していく
@@ -53,7 +55,7 @@ class Reversi():
         # -1  0 +1
         # +7 +8 +9
         # 一次元配列にした際には上のような位置関係になる
-        for i,deep in zip([-9,-8,-7,-1,1,7,8,9],[min(x,y),x,min(x,yd),y,yd,min(xd,y),xd,min(xd,yd)]):
+        for i,deep in zip([(size + 1) * -1,size * -1,(size - 1) * -1,-1,1,size-1,size,size+1],[min(x,y),x,min(x,yd),y,yd,min(xd,y),xd,min(xd,yd)]):
             li,b,m = [],[],[]
             k,n = 0,0
             
@@ -143,13 +145,13 @@ class Reversi():
             for j in range(0,self.Board_Size):
                 s2 = ""
                 if self.cells[i][j] == self.Blank:
-                    s2 = str(i * 8 + j)
+                    s2 = str(i * self.Board_Size + j)
                     if len(s2) == 1:
                         s2 = " " + s2
                 elif self.cells[i][j] == self.Black:
-                    s2 = "○"
+                    s2 = " ○"
                 elif self.cells[i][j] == self.White:
-                    s2 = "●"
+                    s2 = " ●"
                 s1 = s1 + " " + s2
             print(s1)
 
