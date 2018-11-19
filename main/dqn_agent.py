@@ -4,6 +4,7 @@ import sys
 
 import numpy as np
 import tensorflow as tf
+from tensorflow.core.protobuf import saver_pb2
 
 
 class DQNAgent:
@@ -62,7 +63,7 @@ class DQNAgent:
         self.training = optimizer.minimize(self.loss)
 
         # saver
-        self.saver = tf.train.Saver()
+        self.saver = tf.train.Saver(write_version=saver_pb2.SaverDef.V1)
 
         # session
         self.sess = tf.Session()
@@ -128,6 +129,7 @@ class DQNAgent:
     def load_model(self, model_path=None):
         if model_path:
             # load from model_path
+            print('Restore Model :{}'.format(model_path))
             self.saver.restore(self.sess, model_path)
         else:
             # load from checkpoint
@@ -137,12 +139,9 @@ class DQNAgent:
 
     def save_model(self):
         self.saver.save(self.sess, os.path.join(self.model_dir, self.model_name))
-        print("Hellow World")
         print(os.path.join(self.model_dir, self.model_name))
 
     def reload(self):
         checkpoint = tf.train.get_checkpoint_state(self.model_dir)
         if checkpoint and checkpoint.model_checkpoint_path:
             self.saver.restore(self.sess, checkpoint.model_checkpoint_path)
-
-
